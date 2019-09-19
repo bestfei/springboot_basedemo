@@ -5,7 +5,9 @@ import com.bestfei.springboot_basedemo.common.exception.UserException;
 import com.bestfei.springboot_basedemo.dto.Account;
 import com.bestfei.springboot_basedemo.dto.ApiResponse;
 import com.bestfei.springboot_basedemo.dto.LoginRequest;
+import com.bestfei.springboot_basedemo.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -16,6 +18,9 @@ import javax.validation.Valid;
 //表示该controller类下所有的方法都公用的一级上下文根
 @RequestMapping(value = "/apitest")
 public class ApiRequestController {
+
+    @Autowired
+    UserService userService;
 
     @RequestMapping(value = "/requestget", method = RequestMethod.GET)
     public String getUserByGet(@RequestParam(value = "userName") String userName){

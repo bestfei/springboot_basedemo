@@ -37,8 +37,8 @@
         <!--</triggeringPolicy>-->
     </appender>
 
-    <!-- 日志输出级别 INFO-->
-    <root level="ERROR">
+    <!-- 日志输出级别 INFO ERROR-->
+    <root level="DEBUG">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="FILE" />
     </root>
