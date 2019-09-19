@@ -1,9 +1,13 @@
 package com.bestfei.springboot_basedemo.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.bestfei.springboot_basedemo.common.enumer.ResponseCodeEnum;
+import com.bestfei.springboot_basedemo.common.exception.UserException;
+import com.bestfei.springboot_basedemo.dto.Account;
+import com.bestfei.springboot_basedemo.dto.ApiResponse;
+import com.bestfei.springboot_basedemo.dto.LoginRequest;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 //@RestController注解能够使项目支持Rest
 @RestController
@@ -12,8 +16,43 @@ import org.springframework.web.bind.annotation.RestController;
 public class ApiRequestController {
 
     @RequestMapping(value = "/requestget", method = RequestMethod.GET)
-    String getUserByGet(@RequestParam(value = "userName") String userName){
-        return "Hello， " + userName;
+    public String getUserByGet(@RequestParam(value = "userName") String userName){
+        return "Hello " + userName;
+    }
+
+    @RequestMapping(value = "/requestpostform", method = RequestMethod.POST)
+    public String getUserByPostForm(@RequestParam(value = "userName") String userName){
+        return "Hello " + userName;
+    }
+
+    //在入参设置@RequestBody注解表示接收整个报文体，这里主要用在接收整个POST请求中的json报文体，
+    @RequestMapping(value = "/requestpostjson",method = RequestMethod.POST)
+    public ApiResponse getUserByPostJson(@Valid @RequestBody LoginRequest loginRequest){
+        ApiResponse response = new ApiResponse();
+        try{
+            if(loginRequest.getLoginAccount().isEmpty())
+                throw new UserException("please input your login account");
+            if(loginRequest.getPassword().isEmpty())
+                throw new UserException("please input your login password");
+
+            Account account = new Account();
+            account.setId(1l);
+            account.setAccountName(loginRequest.getLoginAccount());
+            account.setPassword(loginRequest.getPassword());
+            account.setMobile("96662055743");
+            response.setCode(ResponseCodeEnum.Success.getErrorCode());
+            response.setMsg("success");
+            response.setData(account);
+        }
+        catch (UserException e){
+            response.setCode(ResponseCodeEnum.AccountError.getErrorCode());
+            response.setMsg(e.getMessage());
+        }
+        catch (Exception e){
+            response.setCode(ResponseCodeEnum.SystemError.getErrorCode());
+            response.setMsg("system error");
+        }
+        return response;
     }
 
 }
