@@ -5,12 +5,14 @@ import com.bestfei.springboot_basedemo.common.exception.UserException;
 import com.bestfei.springboot_basedemo.dto.Account;
 import com.bestfei.springboot_basedemo.dto.ApiResponse;
 import com.bestfei.springboot_basedemo.dto.LoginRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 //@RestController注解能够使项目支持Rest
 @RestController
+@Slf4j
 //表示该controller类下所有的方法都公用的一级上下文根
 @RequestMapping(value = "/apitest")
 public class ApiRequestController {
@@ -45,10 +47,12 @@ public class ApiRequestController {
             response.setData(account);
         }
         catch (UserException e){
+            log.error(e.getMessage());
             response.setCode(ResponseCodeEnum.AccountError.getErrorCode());
             response.setMsg(e.getMessage());
         }
         catch (Exception e){
+            log.error(e.getMessage());
             response.setCode(ResponseCodeEnum.SystemError.getErrorCode());
             response.setMsg("system error");
         }
