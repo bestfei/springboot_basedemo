@@ -14,10 +14,14 @@ public class LoginInterceptorConfigurer implements WebMvcConfigurer {
     @Autowired
     LogInterceptor logInterceptor;
 
+    @Autowired
+    AuthInterceptor authInterceptor;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        //registry.addInterceptor(securityInterceptor).addPathPatterns("/**").excludePathPatterns("/login").excludePathPatterns("/signup").excludePathPatterns("/error");
         registry.addInterceptor(logInterceptor).addPathPatterns("/**");
+        registry.addInterceptor(authInterceptor).addPathPatterns("/**")
+                .excludePathPatterns("/apitest/requestget").excludePathPatterns("/apitest/requestpostform").excludePathPatterns("/error");
     }
 
 
