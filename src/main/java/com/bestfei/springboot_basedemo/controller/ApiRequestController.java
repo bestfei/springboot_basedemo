@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 //@RestController注解能够使项目支持Rest
@@ -34,7 +35,7 @@ public class ApiRequestController {
 
     //在入参设置@RequestBody注解表示接收整个报文体，这里主要用在接收整个POST请求中的json报文体，
     @RequestMapping(value = "/requestpostjson",method = RequestMethod.POST)
-    public ApiResponse getUserByPostJson(@Valid @RequestBody LoginRequest loginRequest){
+    public ApiResponse getUserByPostJson(HttpServletResponse httpServletResponse,@Valid @RequestBody LoginRequest loginRequest){
         ApiResponse response = new ApiResponse();
         try{
             if(loginRequest.getLoginAccount().isEmpty())
@@ -46,13 +47,15 @@ public class ApiRequestController {
             account.setId(1l);
             account.setAccountName(loginRequest.getLoginAccount());
             account.setPassword(loginRequest.getPassword());
-            account.setMobile("96662055743");
+            account.setMobile(userService.getMobile());
             response.setCode(ResponseCodeEnum.Success.getErrorCode());
             response.setMsg("success");
             response.setData(account);
         }
         catch (UserException e){
             log.error(e.getMessage());
+            //修改http code的值
+            httpServletResponse.setStatus(501);
             response.setCode(ResponseCodeEnum.AccountError.getErrorCode());
             response.setMsg(e.getMessage());
         }
