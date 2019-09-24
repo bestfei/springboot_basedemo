@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -24,8 +25,9 @@ public class ApiRequestController {
     UserService userService;
 
     @RequestMapping(value = "/requestget", method = RequestMethod.GET)
-    public String getUserByGet(@RequestParam(value = "userName") String userName){
-        return "Hello " + userName;
+    public String getUserByGet(HttpServletRequest httpServletRequest,@RequestParam(value = "userName") String userName){
+        String token = httpServletRequest.getHeader("token");
+        return "Hello " + userName + ",tocken:"+token;
     }
 
     @RequestMapping(value = "/requestpostform", method = RequestMethod.POST)
@@ -35,7 +37,7 @@ public class ApiRequestController {
 
     //在入参设置@RequestBody注解表示接收整个报文体，这里主要用在接收整个POST请求中的json报文体，
     @RequestMapping(value = "/requestpostjson",method = RequestMethod.POST)
-    public ApiResponse getUserByPostJson(HttpServletResponse httpServletResponse,@Valid @RequestBody LoginRequest loginRequest){
+    public ApiResponse getUserByPostJson( HttpServletResponse httpServletResponse, @Valid @RequestBody LoginRequest loginRequest){
         ApiResponse response = new ApiResponse();
         try{
             if(loginRequest.getLoginAccount().isEmpty())
