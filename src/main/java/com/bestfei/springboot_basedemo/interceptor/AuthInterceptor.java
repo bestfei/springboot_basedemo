@@ -14,19 +14,28 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+
+        if("OPTIONS".equalsIgnoreCase(request.getMethod())){
+            return true;
+        }
+
         String uri = request.getRequestURI();
-        if(!request.getRequestURI().contains("error")){
+        if(!uri.contains("error")){
             log.info("request begin ==> [{}]",uri);
         }
-        if(request.getRequestURI().equals("/intercept")){
+        if(uri.equals("/intercept")){
             log.info("[{}] intercepted",uri);
             // 只有返回true才会继续向下执行，返回false取消当前请求
             return false;
         }
         // 转去error页面
-        if(request.getRequestURI().equals("/intercept2")){
+        if(uri.equals("/intercept2")){
             log.info("[{}] intercepted",uri);
         }
+
+        //其他页面拦截处理
+        log.info("AuthInterceptor begin ==> [{}]",uri);
+
         return super.preHandle(request, response, handler);
     }
 
