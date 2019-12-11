@@ -1,8 +1,11 @@
 package com.bestfei.springboot_basedemo.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.bestfei.springboot_basedemo.common.enumer.ResponseCodeEnum;
+import com.bestfei.springboot_basedemo.common.exception.HeadException;
 import com.bestfei.springboot_basedemo.common.exception.UserException;
-import com.bestfei.springboot_basedemo.dto.Account;
+import com.bestfei.springboot_basedemo.dto.AccountDetail;
+import com.bestfei.springboot_basedemo.dto.AccountDto;
 import com.bestfei.springboot_basedemo.dto.ApiResponse;
 import com.bestfei.springboot_basedemo.dto.LoginRequest;
 import com.bestfei.springboot_basedemo.service.UserService;
@@ -21,6 +24,8 @@ import javax.validation.Valid;
 @RequestMapping(value = "/apitest")
 public class ApiRequestController {
 
+    @Autowired
+    HttpServletRequest request;
     @Autowired
     UserService userService;
 
@@ -45,20 +50,53 @@ public class ApiRequestController {
             if(loginRequest.getPassword().isEmpty())
                 throw new UserException("please input your login password");
 
-            Account account = new Account();
-            account.setId(1l);
-            account.setAccountName(loginRequest.getLoginAccount());
-            account.setPassword(loginRequest.getPassword());
-            account.setMobile(userService.getMobile());
+            AccountDto accountDto = new AccountDto();
+            accountDto.setId(1l);
+            accountDto.setAccountName(loginRequest.getLoginAccount());
+            accountDto.setPassword(loginRequest.getPassword());
+            accountDto.setMobile(userService.getMobile());
             response.setCode(ResponseCodeEnum.Success.getErrorCode());
             response.setMsg("success");
-            response.setData(account);
+            response.setData(accountDto);
         }
         catch (UserException e){
             log.error(e.getMessage());
             //修改http code的值
-            httpServletResponse.setStatus(501);
+            //httpServletResponse.setStatus(501);
             response.setCode(ResponseCodeEnum.AccountError.getErrorCode());
+            response.setMsg(e.getMessage());
+        }
+        catch (Exception e){
+            log.error(e.getMessage());
+            response.setCode(ResponseCodeEnum.SystemError.getErrorCode());
+            response.setMsg("system error");
+        }
+        return response;
+    }
+
+
+    @RequestMapping(value = "/getAccountDetail",method = RequestMethod.POST)
+    public ApiResponse getUserByPostJson( HttpServletResponse httpServletResponse, @Valid @RequestBody AccountDto accountDto){
+        ApiResponse response = new ApiResponse();
+        try {
+            JSONObject headerUserAgent = JSONObject.parseObject(request.getHeader("User-Agent"));
+            AccountDetail accountDetail = new AccountDetail();
+            if(!headerUserAgent.containsKey("id"))
+                throw new HeadException("header User-Agent is null");
+            accountDetail.setAccountId(headerUserAgent.getLong("id"));
+            accountDetail.setAccountName(accountDto.getAccountName());
+            accountDetail.setMobile("9662955743");
+            accountDetail.setAddress("16th Floor World Plaza Building, 30th St. corner 5th Avenue,BGC, Taguig City, Philippines");
+
+            response.setCode(ResponseCodeEnum.Success.getErrorCode());
+            response.setMsg("success");
+            response.setData(accountDetail);
+        }
+        catch (HeadException e){
+            log.error(e.getMessage());
+            //修改http code的值
+            //httpServletResponse.setStatus(501);
+            response.setCode(ResponseCodeEnum.HeaderError.getErrorCode());
             response.setMsg(e.getMessage());
         }
         catch (Exception e){

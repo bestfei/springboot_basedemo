@@ -4,13 +4,14 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Setter
 @Getter
+@Setter
 @ToString
-public class Account {
+public class AccountDetail {
 
-    private long id;
+    private long accountId;
     private String accountName;
-    private String password;
     private String mobile;
+    private String address;
+
 }

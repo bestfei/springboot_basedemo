@@ -3,7 +3,7 @@ package com.bestfei.springboot_basedemo.common.enumer;
 public enum ResponseCodeEnum {
 
     Success(0),
-    SystemError(9999), AccountError(9901);
+    SystemError(9999), HeaderError(9001), AccountError(9901);
 
     private int errorCode;
     public int getErrorCode() {
