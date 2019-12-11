@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 //@RestController注解能够使项目支持Rest
 @RestController
@@ -87,7 +89,9 @@ public class ApiRequestController {
             accountDetail.setAccountName(accountDto.getAccountName());
             accountDetail.setMobile("9662955743");
             accountDetail.setAddress("16th Floor World Plaza Building, 30th St. corner 5th Avenue,BGC, Taguig City, Philippines");
-
+            List<String> cards = new ArrayList<String>();
+            cards.add("1234567890");cards.add("1234512345");cards.add("5432167890");
+            accountDetail.setCards(cards);
             response.setCode(ResponseCodeEnum.Success.getErrorCode());
             response.setMsg("success");
             response.setData(accountDetail);
