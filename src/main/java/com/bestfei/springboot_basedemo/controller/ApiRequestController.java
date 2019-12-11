@@ -4,10 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.bestfei.springboot_basedemo.common.enumer.ResponseCodeEnum;
 import com.bestfei.springboot_basedemo.common.exception.HeadException;
 import com.bestfei.springboot_basedemo.common.exception.UserException;
-import com.bestfei.springboot_basedemo.dto.AccountDetail;
-import com.bestfei.springboot_basedemo.dto.AccountDto;
-import com.bestfei.springboot_basedemo.dto.ApiResponse;
-import com.bestfei.springboot_basedemo.dto.LoginRequest;
+import com.bestfei.springboot_basedemo.dto.*;
 import com.bestfei.springboot_basedemo.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,6 +99,23 @@ public class ApiRequestController {
             //httpServletResponse.setStatus(501);
             response.setCode(ResponseCodeEnum.HeaderError.getErrorCode());
             response.setMsg(e.getMessage());
+        }
+        catch (Exception e){
+            log.error(e.getMessage());
+            response.setCode(ResponseCodeEnum.SystemError.getErrorCode());
+            response.setMsg("system error");
+        }
+        return response;
+    }
+
+
+    @RequestMapping(value = "/collectAccountList",method = RequestMethod.POST)
+    public ApiResponse collectAccountList(@RequestBody AccountListRequest data) {
+        ApiResponse response = new ApiResponse();
+        try {
+            response.setCode(ResponseCodeEnum.Success.getErrorCode());
+            response.setMsg("success");
+            response.setData("collect account:"+userService.collectAccountList(data));
         }
         catch (Exception e){
             log.error(e.getMessage());
