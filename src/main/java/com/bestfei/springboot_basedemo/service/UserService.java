@@ -9,6 +9,8 @@ public interface UserService {
 
     int deleteByPrimaryKey(Long id);
 
+    int updateByPrimaryKey(AccountDto accountDto);
+
     AccountDto selectByPrimaryKey(Long id);
 
     String getMobile();

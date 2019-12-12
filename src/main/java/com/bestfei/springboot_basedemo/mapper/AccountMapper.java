@@ -14,11 +14,23 @@ public interface AccountMapper {
     })
     int insert(AccountDto accountDto);
 
+
     @Delete({
             "delete from account",
             "where id = #{id,jdbcType=BIGINT}"
     })
     int deleteByPrimaryKey(Long id);
+
+
+    @Update({
+            "update account",
+            "set accountName = #{accountName,jdbcType=VARCHAR},",
+            "password = #{password,jdbcType=VARCHAR},",
+            "mobile = #{mobile,jdbcType=VARCHAR} ",
+            "where id = #{id,jdbcType=BIGINT}"
+    })
+    int updateByPrimaryKey(AccountDto record);
+
 
     @Select({
             "select",

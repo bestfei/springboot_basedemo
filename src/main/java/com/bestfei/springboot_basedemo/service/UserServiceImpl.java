@@ -44,6 +44,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public int updateByPrimaryKey(AccountDto accountDto){
+        return accountMapper.updateByPrimaryKey(accountDto);
+    }
+
+    @Override
     public AccountDto selectByPrimaryKey(Long id){
         return accountMapper.selectByPrimaryKey(id);
     }
