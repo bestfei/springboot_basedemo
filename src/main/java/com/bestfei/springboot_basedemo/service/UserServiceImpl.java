@@ -2,12 +2,17 @@ package com.bestfei.springboot_basedemo.service;
 
 import com.bestfei.springboot_basedemo.dto.AccountDto;
 import com.bestfei.springboot_basedemo.dto.AccountListRequest;
+import com.bestfei.springboot_basedemo.mapper.AccountMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    @Autowired
+    private AccountMapper accountMapper;
 
     @Override
     public String getMobile(){
@@ -27,4 +32,10 @@ public class UserServiceImpl implements UserService {
         }
         return accountDtoList.size();
     }
+
+    @Override
+    public int insert(AccountDto accountDto){
+        return accountMapper.insert(accountDto);
+    }
+
 }

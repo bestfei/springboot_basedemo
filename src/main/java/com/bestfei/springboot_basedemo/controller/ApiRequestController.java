@@ -125,4 +125,21 @@ public class ApiRequestController {
         return response;
     }
 
+    @RequestMapping(value = "/saveAccount",method = RequestMethod.POST)
+    public ApiResponse saveAccount( @RequestBody AccountDto accountDto) {
+        ApiResponse response = new ApiResponse();
+        try {
+            response.setCode(ResponseCodeEnum.Success.getErrorCode());
+            response.setMsg("success");
+            response.setData("save "+userService.insert(accountDto)+" data.");
+        }
+        catch (Exception e){
+            log.error(e.getMessage());
+            response.setCode(ResponseCodeEnum.SystemError.getErrorCode());
+            response.setMsg("system error");
+        }
+        return response;
+    }
+
+
 }

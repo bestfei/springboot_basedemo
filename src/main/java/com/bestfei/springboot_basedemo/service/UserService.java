@@ -1,8 +1,11 @@
 package com.bestfei.springboot_basedemo.service;
 
+import com.bestfei.springboot_basedemo.dto.AccountDto;
 import com.bestfei.springboot_basedemo.dto.AccountListRequest;
 
 public interface UserService {
+
+    int insert(AccountDto accountDto);
 
     String getMobile();
 
