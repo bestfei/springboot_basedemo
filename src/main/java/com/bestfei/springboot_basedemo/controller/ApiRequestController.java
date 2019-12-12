@@ -173,6 +173,22 @@ public class ApiRequestController {
         return response;
     }
 
+    @RequestMapping(value = "/{accountId}/queryMobile",method = RequestMethod.GET)
+    public ApiResponse getAccountMobileById( @PathVariable("accountId")Long accountId) {
+        ApiResponse response = new ApiResponse();
+        try {
+            response.setCode(ResponseCodeEnum.Success.getErrorCode());
+            response.setMsg("success");
+            response.setData(userService.selectByPrimaryKey(accountId));
+        }
+        catch (Exception e){
+            log.error(e.getMessage());
+            response.setCode(ResponseCodeEnum.SystemError.getErrorCode());
+            response.setMsg("system error");
+        }
+        return response;
+    }
+
     @RequestMapping(value = "/deleteAccountById",method = RequestMethod.GET)
     public ApiResponse deleteAccountById( @RequestParam(value = "accountId") Long accountId) {
         ApiResponse response = new ApiResponse();
