@@ -7,6 +7,8 @@ public interface UserService {
 
     int insert(AccountDto accountDto);
 
+    AccountDto selectByPrimaryKey(Long id);
+
     String getMobile();
 
     String getUserDetail(String username);

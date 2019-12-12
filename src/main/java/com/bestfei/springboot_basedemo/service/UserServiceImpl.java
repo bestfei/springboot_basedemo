@@ -38,4 +38,10 @@ public class UserServiceImpl implements UserService {
         return accountMapper.insert(accountDto);
     }
 
+    @Override
+    public AccountDto selectByPrimaryKey(Long id){
+        return accountMapper.selectByPrimaryKey(id);
+    }
+
+
 }

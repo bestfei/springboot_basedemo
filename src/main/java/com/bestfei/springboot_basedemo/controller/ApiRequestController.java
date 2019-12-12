@@ -141,5 +141,22 @@ public class ApiRequestController {
         return response;
     }
 
+    @RequestMapping(value = "/getAccountById",method = RequestMethod.GET)
+    public ApiResponse saveAccount( @RequestParam(value = "accountId") Long accountId) {
+        ApiResponse response = new ApiResponse();
+        try {
+            response.setCode(ResponseCodeEnum.Success.getErrorCode());
+            response.setMsg("success");
+            response.setData(userService.selectByPrimaryKey(accountId));
+        }
+        catch (Exception e){
+            log.error(e.getMessage());
+            response.setCode(ResponseCodeEnum.SystemError.getErrorCode());
+            response.setMsg("system error");
+        }
+        return response;
+    }
+
+
 
 }
