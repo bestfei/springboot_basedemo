@@ -1,0 +1,17 @@
+CREATE DATABASE `test` /*!40100 DEFAULT CHARACTER SET latin1 */;
+
+
+use appashman;
+DROP TABLE IF EXISTS `account`;
+CREATE TABLE `account` (
+  `createdAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `accountName` varchar(500) DEFAULT NULL COMMENT 'accountName',
+  `password` varchar(64) DEFAULT NULL,
+  `mobile` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8mb4;
+
+
+select * from test.account;
