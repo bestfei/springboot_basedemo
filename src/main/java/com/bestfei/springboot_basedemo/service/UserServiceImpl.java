@@ -39,6 +39,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public int deleteByPrimaryKey(Long id){
+        return accountMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
     public AccountDto selectByPrimaryKey(Long id){
         return accountMapper.selectByPrimaryKey(id);
     }

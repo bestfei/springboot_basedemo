@@ -142,7 +142,7 @@ public class ApiRequestController {
     }
 
     @RequestMapping(value = "/getAccountById",method = RequestMethod.GET)
-    public ApiResponse saveAccount( @RequestParam(value = "accountId") Long accountId) {
+    public ApiResponse getAccountById( @RequestParam(value = "accountId") Long accountId) {
         ApiResponse response = new ApiResponse();
         try {
             response.setCode(ResponseCodeEnum.Success.getErrorCode());
@@ -157,6 +157,20 @@ public class ApiRequestController {
         return response;
     }
 
-
+    @RequestMapping(value = "/deleteAccountById",method = RequestMethod.GET)
+    public ApiResponse deleteAccountById( @RequestParam(value = "accountId") Long accountId) {
+        ApiResponse response = new ApiResponse();
+        try {
+            response.setCode(ResponseCodeEnum.Success.getErrorCode());
+            response.setMsg("success");
+            response.setData("delete "+userService.deleteByPrimaryKey(accountId)+" data");
+        }
+        catch (Exception e){
+            log.error(e.getMessage());
+            response.setCode(ResponseCodeEnum.SystemError.getErrorCode());
+            response.setMsg("system error");
+        }
+        return response;
+    }
 
 }

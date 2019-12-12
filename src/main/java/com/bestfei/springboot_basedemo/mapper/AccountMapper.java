@@ -1,10 +1,7 @@
 package com.bestfei.springboot_basedemo.mapper;
 
 import com.bestfei.springboot_basedemo.dto.AccountDto;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 import org.springframework.stereotype.Repository;
 
@@ -16,6 +13,12 @@ public interface AccountMapper {
             "values (#{accountName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR})"
     })
     int insert(AccountDto accountDto);
+
+    @Delete({
+            "delete from account",
+            "where id = #{id,jdbcType=BIGINT}"
+    })
+    int deleteByPrimaryKey(Long id);
 
     @Select({
             "select",
