@@ -25,6 +25,7 @@ public class ApiRequestController {
 
     @Autowired
     HttpServletRequest request;
+
     @Autowired
     UserService userService;
 
@@ -157,6 +158,22 @@ public class ApiRequestController {
         return response;
     }
 
+    @RequestMapping(value = "/{accountId}/resetPassword",method = RequestMethod.POST)
+    public ApiResponse updateAccountPwdById( @PathVariable("accountId") Long accountId , @RequestBody AccountDto accountDto) {
+        ApiResponse response = new ApiResponse();
+        try {
+            response.setCode(ResponseCodeEnum.Success.getErrorCode());
+            response.setMsg("success");
+            response.setData("save "+userService.updateByPrimaryKey(accountDto)+" data.");
+        }
+        catch (Exception e){
+            log.error(e.getMessage());
+            response.setCode(ResponseCodeEnum.SystemError.getErrorCode());
+            response.setMsg("system error");
+        }
+        return response;
+    }
+
     @RequestMapping(value = "/getAccountById",method = RequestMethod.GET)
     public ApiResponse getAccountById( @RequestParam(value = "accountId") Long accountId) {
         ApiResponse response = new ApiResponse();
@@ -174,7 +191,7 @@ public class ApiRequestController {
     }
 
     @RequestMapping(value = "/{accountId}/queryMobile",method = RequestMethod.GET)
-    public ApiResponse getAccountMobileById( @PathVariable("accountId")Long accountId) {
+    public ApiResponse getAccountMobileById( @PathVariable("accountId") Long accountId) {
         ApiResponse response = new ApiResponse();
         try {
             response.setCode(ResponseCodeEnum.Success.getErrorCode());
