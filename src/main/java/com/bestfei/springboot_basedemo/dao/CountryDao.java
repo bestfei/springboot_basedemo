@@ -1,7 +1,6 @@
 package com.bestfei.springboot_basedemo.dao;
 
 import com.bestfei.springboot_basedemo.entity.Country;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
