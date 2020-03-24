@@ -10,8 +10,6 @@ import java.util.List;
 /**
  * (Country)表控制层
  *
- * @author makejava
- * @since 2020-03-20 13:42:29
  */
 @RestController
 @RequestMapping("country")
@@ -28,12 +26,27 @@ public class CountryController {
      * @param id 主键
      * @return 单条数据
      * http://127.0.0.1:8081/country/selectOne?id=1000
+     * 写法一 映射xml文件
      */
     @GetMapping("selectOne")
     public Country selectOne(Integer id) {
         return this.countryService.queryById(id);
     }
 
+    /**
+     * 通过主键查询单条数据
+     *
+     * @param id 主键
+     * @return 单条数据
+     * http://127.0.0.1:8081/country/selectOne?id=1000
+     * 写法二 映射xml文件
+     */
+    @GetMapping("selectOne2")
+    public Country selectOne2(Integer id) {
+        return this.countryService.queryById2(id);
+    }
+
+    // http://127.0.0.1:8081/country/selectAll?page=1&pageSize=2
     @GetMapping("selectAll")
     public List<Country> selectOne(Integer page, Integer pageSize) {
         return this.countryService.queryAllByLimit(page,pageSize);

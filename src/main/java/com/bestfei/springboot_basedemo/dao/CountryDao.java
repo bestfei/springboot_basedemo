@@ -1,6 +1,7 @@
 package com.bestfei.springboot_basedemo.dao;
 
 import com.bestfei.springboot_basedemo.entity.Country;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
@@ -10,9 +11,8 @@ import java.util.List;
 /**
  * (Country)表数据库访问层
  *
- * @author makejava
- * @since 2020-03-20 11:50:57
  */
+@Mapper
 @Repository
 public interface CountryDao {
 
@@ -22,6 +22,8 @@ public interface CountryDao {
      * @param id 主键
      * @return 实例对象
      */
+    Country queryById(Integer id);
+
     @Select({
             " select " +
                     "  id, countryame, createdAt, updatedAt, currency " +
@@ -29,7 +31,7 @@ public interface CountryDao {
                     "  where id = #{id} " +
                     "  group by id"
     })
-    Country queryById(Integer id);
+    Country queryById2(Integer id);
 
     /**
      * 查询指定行数据

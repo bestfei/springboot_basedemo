@@ -19,6 +19,8 @@ public interface CountryService {
      */
     Country queryById(Integer id);
 
+    Country queryById2(Integer id);
+
     /**
      * 查询多条数据
      *

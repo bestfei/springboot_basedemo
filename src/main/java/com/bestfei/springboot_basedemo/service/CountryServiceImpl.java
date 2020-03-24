@@ -30,6 +30,11 @@ public class CountryServiceImpl implements CountryService {
         return this.countryDao.queryById(id);
     }
 
+    @Override
+    public Country queryById2(Integer id) {
+        return this.countryDao.queryById2(id);
+    }
+
     /**
      * 查询多条数据
      *

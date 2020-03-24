@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bestfei.springboot_basedemo.dao.CountryDao">
+
+    <resultMap type="com.bestfei.springboot_basedemo.entity.Country" id="CountryMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="countryame" column="countryame" jdbcType="VARCHAR"/>
+        <result property="createdat" column="createdAt" jdbcType="TIMESTAMP"/>
+        <result property="updatedat" column="updatedAt" jdbcType="TIMESTAMP"/>
+        <result property="currency" column="currency" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="CountryMap">
+        select
+          id, countryame, createdAt, updatedAt, currency
+        from appashman.country
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="CountryMap">
+        select
+          id, countryame, createdAt, updatedAt, currency
+        from appashman.country
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="CountryMap">
+        select
+          id, countryame, createdAt, updatedAt, currency
+        from appashman.country
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="countryame != null and countryame != ''">
+                and countryame = #{countryame}
+            </if>
+            <if test="createdat != null">
+                and createdAt = #{createdat}
+            </if>
+            <if test="updatedat != null">
+                and updatedAt = #{updatedat}
+            </if>
+            <if test="currency != null and currency != ''">
+                and currency = #{currency}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into appashman.country(countryame, createdAt, updatedAt, currency)
+        values (#{countryame}, #{createdat}, #{updatedat}, #{currency})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update appashman.country
+        <set>
+            <if test="countryame != null and countryame != ''">
+                countryame = #{countryame},
+            </if>
+            <if test="createdat != null">
+                createdAt = #{createdat},
+            </if>
+            <if test="updatedat != null">
+                updatedAt = #{updatedat},
+            </if>
+            <if test="currency != null and currency != ''">
+                currency = #{currency},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from appashman.country where id = #{id}
+    </delete>
+
+</mapper>
